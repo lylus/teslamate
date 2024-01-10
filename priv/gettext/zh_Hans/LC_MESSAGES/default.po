@@ -326,7 +326,7 @@ msgstr "车外温度"
 #: lib/teslamate_web/live/settings_live/index.html.heex:283
 #, elixir-autogen, elixir-format
 msgid "Version"
-msgstr "当前固件版本"
+msgstr "当前车辆固件版本"
 
 #: lib/teslamate_web/live/car_live/summary.html.heex:88
 #, elixir-autogen, elixir-format
@@ -542,7 +542,7 @@ msgstr "Tesla串流接口 (默认开启)"
 #: lib/teslamate_web/live/settings_live/index.html.heex:298
 #, elixir-autogen, elixir-format
 msgid "Documentation"
-msgstr "帮助文档"
+msgstr "帮助文档tes"
 
 #: lib/teslamate_web/live/settings_live/index.html.heex:294
 #, elixir-autogen, elixir-format
