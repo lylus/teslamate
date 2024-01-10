@@ -8,7 +8,7 @@ on:
     tags:
       - "v*"
 env:
-  REGISTRY_IMAGE: lylus/teslamate
+  REGISTRY_IMAGE: testesscn/teslamate
 
 permissions:
   contents: read
