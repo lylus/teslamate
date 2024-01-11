@@ -806,7 +806,7 @@
         }
       ],
       "datasource": "TeslaMate",
-      "title": "Drive",
+      "title": "行驶",
       "transformations": [
         {
           "id": "merge",
@@ -1007,7 +1007,7 @@
     ]
   },
   "timezone": "",
-  "title": "Drives",
+  "title": "行驶",
   "uid": "Y8upc6ZRk",
   "version": 1,
   "weekStart": ""
