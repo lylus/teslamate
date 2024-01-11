@@ -115,7 +115,7 @@
               }
             ]
           ],
-          "table": "drives",
+          "table": "驾驶",
           "timeColumn": "start_date",
           "timeColumnType": "timestamp",
           "where": [
@@ -189,7 +189,7 @@
               }
             ]
           ],
-          "table": "drives",
+          "table": "驾驶",
           "timeColumn": "start_date",
           "timeColumnType": "timestamp",
           "where": [
