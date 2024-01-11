@@ -24,21 +24,53 @@
   "iteration": 1656100778202,
   "links": [
     {
-      "icon": "dashboard",
-      "tags": [],
-      "title": "TeslaMate",
-      "tooltip": "",
-      "type": "link",
-      "url": "[[base_url:raw]]"
-    },
-    {
       "asDropdown": true,
       "icon": "external link",
       "tags": [
         "tesla"
       ],
-      "title": "Dashboards",
+      "title": "车辆信息",
       "type": "dashboards"
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "battery"
+      ],
+      "targetBlank": false,
+      "title": "电池",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "trip"
+      ],
+      "targetBlank": false,
+      "title": "行驶",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "doc",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "中文文档",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://docs.teslamate.com.cn"
     }
   ],
   "liveNow": false,
@@ -143,7 +175,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Mileage"
+                "value": "里程"
               }
             ]
           }
@@ -203,7 +235,7 @@
           ]
         }
       ],
-      "title": "Mileage",
+      "title": "里程",
       "type": "timeseries"
     }
   ],
@@ -211,6 +243,7 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
+    "trip",
     "tesla"
   ],
   "templating": {
@@ -319,7 +352,7 @@
     ]
   },
   "timezone": "",
-  "title": "Mileage",
+  "title": "车辆里程（曲线图）",
   "uid": "NjtMTFggz",
   "version": 1,
   "weekStart": ""

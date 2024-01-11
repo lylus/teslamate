@@ -24,21 +24,53 @@
   "iteration": 1656100496202,
   "links": [
     {
-      "icon": "dashboard",
-      "tags": [],
-      "title": "TeslaMate",
-      "tooltip": "",
-      "type": "link",
-      "url": "[[base_url:raw]]"
-    },
-    {
       "asDropdown": true,
       "icon": "external link",
       "tags": [
         "tesla"
       ],
-      "title": "Dashboards",
+      "title": "车辆信息",
       "type": "dashboards"
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "battery"
+      ],
+      "targetBlank": false,
+      "title": "电池",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "trip"
+      ],
+      "targetBlank": false,
+      "title": "行驶",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "doc",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "中文文档",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://docs.teslamate.com.cn"
     }
   ],
   "liveNow": false,
@@ -66,7 +98,7 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "Charge Level",
+            "axisLabel": "能量百分比",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
@@ -174,7 +206,7 @@
           ]
         }
       ],
-      "title": "Charge Level",
+      "title": "电量曲线图",
       "type": "timeseries"
     }
   ],
@@ -182,6 +214,7 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
+    "battery",
     "tesla"
   ],
   "templating": {
@@ -266,7 +299,7 @@
     ]
   },
   "timezone": "",
-  "title": "Charge Level",
+  "title": "电量曲线图",
   "uid": "WopVO_mgz",
   "version": 1,
   "weekStart": ""

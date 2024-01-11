@@ -25,28 +25,53 @@
   "iteration": 1656104359102,
   "links": [
     {
-      "icon": "doc",
-      "tags": [],
-      "title": "Select last three drives",
-      "type": "link",
-      "url": "/d/FkUpJpQZk?from=$from"
-    },
-    {
-      "icon": "dashboard",
-      "tags": [],
-      "title": "TeslaMate",
-      "tooltip": "",
-      "type": "link",
-      "url": "[[base_url:raw]]"
-    },
-    {
       "asDropdown": true,
       "icon": "external link",
       "tags": [
         "tesla"
       ],
-      "title": "Dashboards",
+      "title": "车辆信息",
       "type": "dashboards"
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "battery"
+      ],
+      "targetBlank": false,
+      "title": "电池",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "trip"
+      ],
+      "targetBlank": false,
+      "title": "行驶",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "doc",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "中文文档",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://docs.teslamate.com.cn"
     }
   ],
   "liveNow": false,
@@ -67,7 +92,9 @@
       "type": "row"
     },
     {
+      "autoZoom": true,
       "datasource": "TeslaMate",
+      "defaultLayer": "OpenStreetMap",
       "gridPos": {
         "h": 13,
         "w": 13,
@@ -75,7 +102,11 @@
         "y": 1
       },
       "id": 6,
+      "lineColor": "red",
       "maxDataPoints": 500,
+      "pointColor": "royalblue",
+      "scrollWheelZoom": false,
+      "showLayerChanger": true,
       "targets": [
         {
           "datasource": "TeslaMate",
@@ -83,7 +114,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\t$__timeGroup(date, '5s') AS time,\n\tavg(latitude) AS latitude,\n\tavg(longitude) AS longitude\nFROM\n\tpositions\nWHERE\n  car_id = $car_id AND\n\t$__timeFilter(date)\nGROUP BY\n\t1\nORDER BY\n\t1 ASC",
+          "rawSql": "SELECT\n\t$__timeGroup(date, '5s') AS time,\n\tavg(latitude) AS lat\nFROM\n\tpositions\nWHERE\n  car_id = $car_id AND\n\t$__timeFilter(date)\nGROUP BY\n\t1\nORDER BY\n\t1 ASC",
           "refId": "A",
           "select": [
             [
@@ -104,123 +135,42 @@
               "params": [],
               "type": "macro"
             }
+          ]
+        },
+        {
+          "datasource": "TeslaMate",
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n\t$__timeGroup(date, '5s') AS time,\n\tavg(longitude) AS lng\nFROM\n\tpositions\nWHERE\n  car_id = $car_id AND\n\t$__timeFilter(date)\nGROUP BY\n\t1\nORDER BY\n\t1 ASC",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "latitude"
+                ],
+                "type": "column"
+              }
+            ]
           ],
-          "editorMode": "code",
-          "sql": {
-            "columns": [
-              {
-                "type": "function",
-                "parameters": []
-              }
-            ],
-            "groupBy": [
-              {
-                "type": "groupBy",
-                "property": {
-                  "type": "string"
-                }
-              }
-            ],
-            "limit": 50
-          }
+          "table": "addresses",
+          "timeColumn": "inserted_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
       "transformations": [],
       "transparent": true,
-      "type": "geomap",
-      "options": {
-        "view": {
-          "allLayers": true,
-          "id": "fit",
-          "lat": 0,
-          "lon": 0,
-          "zoom": 15
-        },
-        "controls": {
-          "showZoom": true,
-          "mouseWheelZoom": true,
-          "showAttribution": true,
-          "showScale": false,
-          "showMeasure": false,
-          "showDebug": false
-        },
-        "tooltip": {
-          "mode": "details"
-        },
-        "layers": [
-          {
-            "type": "route",
-            "name": "Layer 1",
-            "config": {
-              "style": {
-                "size": {
-                  "fixed": 3,
-                  "min": 2,
-                  "max": 15
-                },
-                "color": {
-                  "fixed": "red"
-                },
-                "opacity": 1,
-                "symbol": {
-                  "mode": "fixed",
-                  "fixed": "img/icons/marker/circle.svg"
-                },
-                "symbolAlign": {
-                  "horizontal": "center",
-                  "vertical": "center"
-                },
-                "textConfig": {
-                  "fontSize": 12,
-                  "textAlign": "center",
-                  "textBaseline": "middle",
-                  "offsetX": 0,
-                  "offsetY": 0
-                },
-                "rotation": {
-                  "fixed": 0,
-                  "mode": "mod",
-                  "min": -360,
-                  "max": 360
-                },
-                "lineWidth": 2
-              },
-              "arrow": 0
-            },
-            "tooltip": true
-          }
-        ],
-        "basemap": {
-          "type": "osm-standard",
-          "name": "Layer 0",
-          "config": {}
-        }
-      },
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "hideFrom": {
-              "tooltip": false,
-              "viz": false,
-              "legend": false
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "color": {
-            "mode": "thresholds"
-          }
-        },
-        "overrides": []
-      }
+      "type": "pr0ps-trackmap-panel"
     },
     {
       "datasource": "TeslaMate",
@@ -251,7 +201,7 @@
               },
               {
                 "id": "displayName",
-                "value": "Distance"
+                "value": "行程距离"
               }
             ]
           },
@@ -267,7 +217,7 @@
               },
               {
                 "id": "displayName",
-                "value": "Distance"
+                "value": "行程距离"
               }
             ]
           }
@@ -365,6 +315,10 @@
                   "fixedColor": "#73BF69",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "displayName",
+                "value": "交流充电"
               }
             ]
           },
@@ -380,6 +334,10 @@
                   "fixedColor": "#FADE2A",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "displayName",
+                "value": "直流充电"
               }
             ]
           },
@@ -395,6 +353,10 @@
                   "fixedColor": "#5794F2",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "displayName",
+                "value": "行驶中"
               }
             ]
           }
@@ -535,7 +497,7 @@
               },
               {
                 "id": "displayName",
-                "value": "excl. breaks"
+                "value": "平均速度（不含快充时间）"
               }
             ]
           },
@@ -551,7 +513,7 @@
               },
               {
                 "id": "displayName",
-                "value": "excl. breaks"
+                "value": "平均速度（不含快充时间）"
               }
             ]
           }
@@ -647,7 +609,7 @@
               },
               {
                 "id": "displayName",
-                "value": "incl. DC charging"
+                "value": "平均速度（包含快充时间）"
               }
             ]
           },
@@ -663,7 +625,7 @@
               },
               {
                 "id": "displayName",
-                "value": "incl. DC charging"
+                "value": "平均速度（包含快冲时间）"
               }
             ]
           }
@@ -761,7 +723,7 @@
               },
               {
                 "id": "displayName",
-                "value": "net"
+                "value": "行驶能耗"
               }
             ]
           },
@@ -777,7 +739,7 @@
               },
               {
                 "id": "displayName",
-                "value": "net"
+                "value": "行驶能耗"
               }
             ]
           }
@@ -876,7 +838,7 @@
               },
               {
                 "id": "displayName",
-                "value": "gross"
+                "value": "综合能耗"
               }
             ]
           },
@@ -892,7 +854,7 @@
               },
               {
                 "id": "displayName",
-                "value": "gross"
+                "value": "综合能耗"
               }
             ]
           }
@@ -964,7 +926,7 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "displayName": "Cost",
+          "displayName": "费用",
           "mappings": [
             {
               "options": {
@@ -1182,41 +1144,41 @@
                 "0": {
                   "color": "#6ED0E0",
                   "index": 0,
-                  "text": "online"
+                  "text": "在线"
                 },
                 "1": {
                   "color": "#8F3BB8",
                   "index": 1,
-                  "text": "driving"
+                  "text": "行驶中"
                 },
                 "2": {
                   "color": "#F2CC0C",
                   "index": 2,
-                  "text": "charging"
+                  "text": "充电中"
                 },
                 "3": {
                   "color": "#FFB357",
                   "index": 3,
-                  "text": "offline"
+                  "text": "离线"
                 },
                 "4": {
                   "color": "#56A64B",
                   "index": 4,
-                  "text": "asleep"
+                  "text": "休眠中"
                 },
                 "5": {
                   "color": "#6ED0E0",
                   "index": 5,
-                  "text": "online"
+                  "text": "在线"
                 },
                 "6": {
                   "color": "#E02F44",
                   "index": 6,
-                  "text": "updating"
+                  "text": "升级中"
                 },
                 "null": {
                   "index": 7,
-                  "text": "N/A"
+                  "text": "未知状态"
                 }
               },
               "type": "value"
@@ -1327,7 +1289,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Date"
+                "value": "日期时间"
               },
               {
                 "id": "unit",
@@ -1338,7 +1300,7 @@
                 "value": [
                   {
                     "targetBlank": false,
-                    "title": "View drive details",
+                    "title": "查看行程详情",
                     "url": "d/zm7wN6Zgz?from=${__data.fields.start_date_ts.numeric}&to=${__data.fields.end_date_ts.numeric}&var-car_id=${__data.fields.car_id.numeric}&var-drive_id=${__data.fields.drive_id.numeric}"
                   }
                 ]
@@ -1357,7 +1319,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Consumption"
+                "value": "能耗"
               },
               {
                 "id": "unit",
@@ -1381,7 +1343,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Consumption"
+                "value": "能耗"
               },
               {
                 "id": "unit",
@@ -1405,7 +1367,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "km"
+                "value": "行驶距离"
               },
               {
                 "id": "unit",
@@ -1429,14 +1391,14 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Start"
+                "value": "起点"
               },
               {
                 "id": "links",
                 "value": [
                   {
                     "targetBlank": true,
-                    "title": "Create or edit geo-fence",
+                    "title": "创建或编辑收藏点",
                     "url": "[[base_url:raw]]/geo-fences/${__data.fields.start_path}"
                   }
                 ]
@@ -1455,14 +1417,14 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Destination"
+                "value": "目的地"
               },
               {
                 "id": "links",
                 "value": [
                   {
                     "targetBlank": true,
-                    "title": "Create or edit geo-fence",
+                    "title": "创建或编辑收藏点",
                     "url": "[[base_url:raw]]/geo-fences/${__data.fields.end_path}"
                   }
                 ]
@@ -1481,7 +1443,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Duration"
+                "value": "时长"
               },
               {
                 "id": "unit",
@@ -1549,6 +1511,10 @@
             },
             "properties": [
               {
+                "id": "displayName",
+                "value": "出发电量 %"
+              },
+              {
                 "id": "unit",
                 "value": "percent"
               },
@@ -1561,7 +1527,7 @@
               },
               {
                 "id": "custom.width",
-                "value": 65
+                "value": 100
               }
             ]
           },
@@ -1572,6 +1538,10 @@
             },
             "properties": [
               {
+                "id": "displayName",
+                "value": "到达电量 %"
+              },
+              {
                 "id": "unit",
                 "value": "percent"
               },
@@ -1584,7 +1554,7 @@
               },
               {
                 "id": "custom.width",
-                "value": 65
+                "value": 100
               }
             ]
           },
@@ -1622,7 +1592,7 @@
         "sortBy": [
           {
             "desc": true,
-            "displayName": "Date"
+            "displayName": "日期时间"
           }
         ]
       },
@@ -1657,7 +1627,7 @@
           ]
         }
       ],
-      "title": "Drives",
+      "title": "行程",
       "transformations": [],
       "type": "table"
     },
@@ -1700,7 +1670,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Date"
+                "value": "日期时间"
               },
               {
                 "id": "unit",
@@ -1712,7 +1682,7 @@
                   {
                     "targetBlank": false,
                     "title": "View charge details",
-                    "url": "d/BHhxFeZRz?from=${__data.fields.start_date_ts.numeric}&to=${__data.fields.end_date_ts.numeric}&var-car_id=${__data.fields.car_id.numeric}&var-charging_process_id=${__data.fields.id.numeric:raw}"
+                    "url": "d/BHhxFeZRz?from=${__data.fields.start_date_ts.numeric}&to=${__data.fields.end_date_ts.numeric}&var-car_id=${__data.fields.car_id.numeric}&var-charging_process_id=${__data.fields.id.numeric}"
                   }
                 ]
               },
@@ -1733,7 +1703,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Added"
+                "value": "充电量"
               },
               {
                 "id": "unit",
@@ -1760,7 +1730,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "% Start"
+                "value": "充电前 %"
               },
               {
                 "id": "unit",
@@ -1775,7 +1745,7 @@
               },
               {
                 "id": "custom.width",
-                "value": 65
+                "value": 100
               }
             ]
           },
@@ -1787,7 +1757,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "% End"
+                "value": "充电后 %"
               },
               {
                 "id": "unit",
@@ -1802,7 +1772,7 @@
               },
               {
                 "id": "custom.width",
-                "value": 65
+                "value": 100
               }
             ]
           },
@@ -1814,7 +1784,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Duration"
+                "value": "充电时长"
               },
               {
                 "id": "unit",
@@ -1841,7 +1811,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Cost"
+                "value": "费用"
               },
               {
                 "id": "unit",
@@ -1856,8 +1826,8 @@
                 "value": [
                   {
                     "targetBlank": false,
-                    "title": "Set Cost",
-                    "url": "[[base_url:raw]]/charge-cost/${__data.fields.id.numeric:raw}"
+                    "title": "设置费用",
+                    "url": "[[base_url:raw]]/charge-cost/${__data.fields.id.numeric}"
                   }
                 ]
               },
@@ -1916,14 +1886,14 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Location"
+                "value": "地点"
               },
               {
                 "id": "links",
                 "value": [
                   {
                     "targetBlank": true,
-                    "title": "Create or edit geo-fence",
+                    "title": "创建或编辑收藏点",
                     "url": "[[base_url:raw]]/geo-fences/${__data.fields.path}"
                   }
                 ]
@@ -1945,7 +1915,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Driven"
+                "value": "行驶距离"
               },
               {
                 "id": "unit",
@@ -1972,7 +1942,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "kW"
+                "value": "功率"
               },
               {
                 "id": "unit",
@@ -2023,7 +1993,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Driven"
+                "value": "行驶距离"
               },
               {
                 "id": "unit",
@@ -2061,7 +2031,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Used"
+                "value": "用电量"
               },
               {
                 "id": "unit",
@@ -2151,7 +2121,7 @@
           ]
         }
       ],
-      "title": "Charges",
+      "title": "充电",
       "transformations": [
         {
           "id": "merge",
@@ -2263,7 +2233,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Range (ideal)"
+                "value": "续航里程 (额定)"
               }
             ]
           },
@@ -2275,7 +2245,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Range (rated)"
+                "value": "续航里程 (典型)"
               }
             ]
           }
@@ -2335,7 +2305,7 @@
           ]
         }
       ],
-      "title": "Battery Level & Range",
+      "title": "电池水平及续航里程",
       "type": "timeseries"
     },
     {
@@ -2422,7 +2392,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Elevation"
+                "value": "海拔"
               },
               {
                 "id": "color",
@@ -2489,7 +2459,7 @@
           ]
         }
       ],
-      "title": "Elevation",
+      "title": "海拔",
       "type": "timeseries"
     }
   ],
@@ -2497,7 +2467,7 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
-    "tesla"
+    "trip"
   ],
   "templating": {
     "list": [
@@ -2700,7 +2670,7 @@
     ]
   },
   "timezone": "",
-  "title": "Trip",
+  "title": "行程统计（时间段）",
   "uid": "FkUpJpQZk",
   "version": 1,
   "weekStart": ""

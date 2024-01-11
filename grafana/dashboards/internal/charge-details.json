@@ -24,21 +24,53 @@
   "iteration": 1656106965302,
   "links": [
     {
-      "icon": "dashboard",
-      "tags": [],
-      "title": "TeslaMate",
-      "tooltip": "",
-      "type": "link",
-      "url": "[[base_url:raw]]"
-    },
-    {
       "asDropdown": true,
       "icon": "external link",
       "tags": [
         "tesla"
       ],
-      "title": "Dashboards",
+      "title": "车辆信息",
       "type": "dashboards"
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "battery"
+      ],
+      "targetBlank": false,
+      "title": "电池",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "trip"
+      ],
+      "targetBlank": false,
+      "title": "行驶",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "doc",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "中文文档",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://docs.teslamate.com.cn"
     }
   ],
   "liveNow": false,
@@ -110,7 +142,7 @@
               },
               {
                 "id": "displayName",
-                "value": "Charging Voltage"
+                "value": "充电电压"
               },
               {
                 "id": "unit",
@@ -146,7 +178,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Power"
+                "value": "电量"
               },
               {
                 "id": "unit",
@@ -166,7 +198,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Battery heater"
+                "value": "电池加热"
               },
               {
                 "id": "unit",
@@ -218,7 +250,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Range"
+                "value": "里程"
               }
             ]
           },
@@ -230,7 +262,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Current"
+                "value": "电流"
               },
               {
                 "id": "unit",
@@ -250,7 +282,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Current (pilot)"
+                "value": "电流 (pilot)"
               },
               {
                 "id": "unit",
@@ -302,7 +334,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Outdoor Temperature"
+                "value": "车外温度"
               }
             ]
           },
@@ -378,7 +410,7 @@
           ]
         }
       ],
-      "title": "Charge Details",
+      "title": "充电详情",
       "type": "timeseries"
     },
     {
@@ -386,7 +418,7 @@
       "fieldConfig": {
         "defaults": {
           "decimals": 1,
-          "displayName": "Added",
+          "displayName": "充电量",
           "mappings": [
             {
               "options": {
@@ -441,7 +473,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select coalesce(cp.charge_energy_added, c.charge_energy_added)\r\nfrom charging_processes cp\r\njoin charges c\r\n\ton cp.id = c.charging_process_id\r\nwhere car_id = $car_id\r\nAND cp.id = $charging_process_id\r\nORDER BY c.date desc\r\nfetch first row only",
+          "rawSql": "SELECT\n\tsum(charge_energy_added)\nFROM\n\tcharging_processes\nWHERE\n\t$__timeFilter(start_date)\n\tAND car_id = $car_id;\n",
           "refId": "A",
           "select": [
             [
@@ -472,7 +504,7 @@
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
-          "displayName": "Cost",
+          "displayName": "费用",
           "mappings": [
             {
               "options": {
@@ -533,7 +565,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT cost from charging_processes where id = $charging_process_id;",
+          "rawSql": "select sum(cost) as \"Cost\" from charging_processes where $__timeFilter(start_date) AND car_id = $car_id;",
           "refId": "A",
           "select": [
             [
@@ -651,36 +683,9 @@
       "type": "stat"
     },
     {
+      "autoZoom": true,
       "datasource": "TeslaMate",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "hideFrom": {
-              "tooltip": false,
-              "viz": false,
-              "legend": false
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "color": {
-            "mode": "thresholds"
-          }
-        },
-        "overrides": []
-      },
+      "defaultLayer": "OpenStreetMap",
       "gridPos": {
         "h": 15,
         "w": 7,
@@ -688,94 +693,21 @@
         "y": 5
       },
       "id": 4,
+      "lineColor": "red",
       "links": [],
       "maxDataPoints": 500,
-      "options": {
-        "view": {
-          "allLayers": true,
-          "id": "fit",
-          "lat": 0,
-          "lon": 0,
-          "zoom": 15
-        },
-        "controls": {
-          "showZoom": true,
-          "mouseWheelZoom": true,
-          "showAttribution": true,
-          "showScale": false,
-          "showMeasure": false,
-          "showDebug": false
-        },
-        "tooltip": {
-          "mode": "details"
-        },
-        "basemap": {
-          "config": {},
-          "name": "Layer 0",
-          "type": "osm-standard"
-        },
-        "layers": [
-          {
-            "config": {
-              "showLegend": false,
-              "style": {
-                "color": {
-                  "fixed": "red"
-                },
-                "opacity": 1,
-                "rotation": {
-                  "fixed": 0,
-                  "max": 360,
-                  "min": -360,
-                  "mode": "mod"
-                },
-                "size": {
-                  "fixed": 7,
-                  "max": 15,
-                  "min": 2
-                },
-                "symbol": {
-                  "fixed": "img/icons/marker/circle.svg",
-                  "mode": "fixed"
-                },
-                "symbolAlign": {
-                  "horizontal": "center",
-                  "vertical": "center"
-                },
-                "textConfig": {
-                  "fontSize": 12,
-                  "offsetX": 0,
-                  "offsetY": 0,
-                  "textAlign": "center",
-                  "textBaseline": "middle"
-                }
-              }
-            },
-            "filterData": {
-              "id": "byRefId",
-              "options": "A"
-            },
-            "location": {
-              "latitude": "latitude",
-              "longitude": "longitude",
-              "mode": "auto"
-            },
-            "name": "Layer 1",
-            "tooltip": true,
-            "type": "markers"
-          }
-        ]
-      },
+      "pointColor": "royalblue",
+      "scrollWheelZoom": false,
+      "showLayerChanger": true,
       "targets": [
         {
           "alias": "",
           "datasource": "TeslaMate",
-          "editorMode": "code",
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n\t$__time(date),\n\tunnest(ARRAY[latitude, latitude]) AS latitude,\n\tunnest(ARRAY[longitude, longitude]) AS longitude\nFROM\n\tcharging_processes c\n\tJOIN positions p ON c.position_id = p.id\nWHERE\n\t$__timeFilter(date)\n\tAND c.car_id = $car_id;",
+          "rawSql": "SELECT\n\t$__time(date),\n\tunnest(ARRAY[latitude, latitude]) AS latitude\nFROM\n\tcharging_processes c\n\tJOIN positions p ON c.position_id = p.id\nWHERE\n\t$__timeFilter(date)\n\tAND c.car_id = $car_id;",
           "refId": "A",
           "select": [
             [
@@ -787,23 +719,35 @@
               }
             ]
           ],
-          "sql": {
-            "columns": [
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "alias": "",
+          "datasource": "TeslaMate",
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n\t$__time(date),\n\tunnest(ARRAY[longitude, longitude]) AS longitude\nFROM\n\tcharging_processes c\n\tJOIN positions p ON c.position_id = p.id\nWHERE\n\t$__timeFilter(date)\n\tAND c.car_id = $car_id;",
+          "refId": "B",
+          "select": [
+            [
               {
-                "parameters": [],
-                "type": "function"
+                "params": [
+                  "value"
+                ],
+                "type": "column"
               }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          },
+            ]
+          ],
           "timeColumn": "time",
           "where": [
             {
@@ -814,74 +758,10 @@
           ]
         }
       ],
-      "type": "geomap"
+      "type": "pr0ps-trackmap-panel"
     },
     {
       "datasource": "TeslaMate",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "pointSize": {
-              "fixed": 5
-            },
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "show": "points"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byFrameRefID",
-              "options": "B"
-            },
-            "properties": [
-              {
-                "id": "custom.show",
-                "value": "lines"
-              },
-              {
-                "id": "custom.lineStyle",
-                "value": {
-                  "fill": "solid"
-                }
-              },
-              {
-                "id": "custom.lineWidth",
-                "value": 1
-              }
-            ]
-          }
-        ]
-      },
       "gridPos": {
         "h": 19,
         "w": 24,
@@ -890,39 +770,127 @@
       },
       "id": 11,
       "links": [],
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
+      "pconfig": {
+        "fixScale": "",
+        "layout": {
+          "dragmode": "pan",
+          "font": {
+            "family": "\"Open Sans\", Helvetica, Arial, sans-serif"
+          },
+          "hovermode": "closest",
+          "legend": {
+            "orientation": "h"
+          },
+          "showlegend": false,
+          "xaxis": {
+            "rangemode": "normal",
+            "showgrid": true,
+            "title": "SOC [%]",
+            "type": "linear",
+            "zeroline": false
+          },
+          "yaxis": {
+            "rangemode": "normal",
+            "showgrid": true,
+            "title": "kW",
+            "type": "linear",
+            "zeroline": false
+          },
+          "zaxis": {
+            "rangemode": "normal",
+            "showgrid": true,
+            "type": "linear",
+            "zeroline": false
+          }
         },
-        "series": [
+        "loadFromCDN": false,
+        "settings": {
+          "displayModeBar": false,
+          "type": "scatter"
+        },
+        "showAnnotations": true,
+        "traces": [
           {
-            "pointColor": {},
-            "x": "SOC [%]",
-            "y": "Power [kW]"
+            "mapping": {
+              "color": "Power [kW]",
+              "x": "SOC [%]",
+              "y": "Power [kW]"
+            },
+            "name": "Power",
+            "settings": {
+              "color_option": "solid",
+              "line": {
+                "color": "#005f81",
+                "dash": "solid",
+                "shape": "linear",
+                "width": 6
+              },
+              "marker": {
+                "color": "#8AB8FF",
+                "colorscale": "YlOrRd",
+                "line": {
+                  "color": "#DDD",
+                  "width": 0
+                },
+                "showscale": false,
+                "size": 5,
+                "sizemin": 3,
+                "sizemode": "diameter",
+                "sizeref": 0.2,
+                "symbol": "circle"
+              },
+              "textposition": "bottom"
+            },
+            "show": {
+              "line": true,
+              "lines": false,
+              "markers": true
+            }
           },
           {
-            "pointColor": {
-              "fixed": "blue"
+            "mapping": {
+              "color": "Power [kW]",
+              "x": "avg SOC [%]",
+              "y": "avg Power [kW]"
             },
-            "x": "avg SOC [%]",
-            "y": "avg Power [kW]"
+            "name": "Average Power",
+            "settings": {
+              "color_option": "ramp",
+              "line": {
+                "color": "#3274D9",
+                "dash": "solid",
+                "shape": "spline",
+                "width": 2
+              },
+              "marker": {
+                "color": "#33B5E5",
+                "colorscale": "YlOrRd",
+                "line": {
+                  "color": "#DDD",
+                  "width": 0
+                },
+                "showscale": false,
+                "size": 5,
+                "sizemin": 3,
+                "sizemode": "diameter",
+                "sizeref": 0.2,
+                "symbol": "circle"
+              },
+              "textposition": "bottom"
+            },
+            "show": {
+              "line": true,
+              "lines": true,
+              "markers": false
+            }
           }
-        ],
-        "seriesMapping": "manual",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
+        ]
       },
       "pluginVersion": "7.5.11",
       "targets": [
         {
           "alias": "",
           "datasource": "TeslaMate",
-          "editorMode": "code",
           "format": "table",
           "group": [],
           "hide": false,
@@ -940,23 +908,6 @@
               }
             ]
           ],
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          },
           "timeColumn": "time",
           "where": [
             {
@@ -997,8 +948,9 @@
           ]
         }
       ],
-      "title": "Charging curve",
-      "type": "xychart"
+      "title": "充电曲线",
+      "type": "natel-plotly-panel",
+      "version": 1
     }
   ],
   "refresh": false,
@@ -1176,7 +1128,7 @@
     ]
   },
   "timezone": "",
-  "title": "Charge Details",
+  "title": "充电详情",
   "uid": "BHhxFeZRz",
   "version": 1,
   "weekStart": ""

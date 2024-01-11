@@ -67,21 +67,53 @@
   "iteration": 1681039491922,
   "links": [
     {
-      "icon": "dashboard",
-      "tags": [],
-      "title": "TeslaMate",
-      "tooltip": "",
-      "type": "link",
-      "url": "[[base_url:raw]]"
-    },
-    {
       "asDropdown": true,
       "icon": "external link",
       "tags": [
         "tesla"
       ],
-      "title": "Dashboards",
+      "title": "车辆信息",
       "type": "dashboards"
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "battery"
+      ],
+      "targetBlank": false,
+      "title": "电池",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "trip"
+      ],
+      "targetBlank": false,
+      "title": "行驶",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "doc",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "中文文档",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://docs.teslamate.com.cn"
     }
   ],
   "liveNow": false,
@@ -156,7 +188,7 @@
               }
             ]
           ],
-          "table": "驾驶",
+          "table": "drives",
           "timeColumn": "start_date",
           "timeColumnType": "timestamp",
           "where": [
@@ -301,7 +333,7 @@
               }
             ]
           ],
-          "table": "驾驶",
+          "table": "drives",
           "timeColumn": "start_date",
           "timeColumnType": "timestamp",
           "where": [
@@ -551,7 +583,7 @@
               }
             ]
           ],
-          "table": "驾驶",
+          "table": "drives",
           "timeColumn": "start_date",
           "timeColumnType": "timestamp",
           "where": [
@@ -646,7 +678,7 @@
               }
             ]
           ],
-          "table": "驾驶",
+          "table": "drives",
           "timeColumn": "start_date",
           "timeColumnType": "timestamp",
           "where": [
@@ -741,7 +773,7 @@
               }
             ]
           ],
-          "table": "驾驶",
+          "table": "drives",
           "timeColumn": "start_date",
           "timeColumnType": "timestamp",
           "where": [
@@ -824,7 +856,7 @@
               }
             ]
           ],
-          "table": "驾驶",
+          "table": "drives",
           "timeColumn": "start_date",
           "timeColumnType": "timestamp",
           "where": [
@@ -1057,7 +1089,7 @@
               }
             ]
           ],
-          "table": "驾驶",
+          "table": "drives",
           "timeColumn": "start_date",
           "timeColumnType": "timestamp",
           "where": [
@@ -1174,7 +1206,7 @@
               }
             ]
           ],
-          "table": "驾驶",
+          "table": "drives",
           "timeColumn": "start_date",
           "timeColumnType": "timestamp",
           "where": [
@@ -1343,7 +1375,7 @@
               }
             ]
           ],
-          "table": "驾驶",
+          "table": "drives",
           "timeColumn": "start_date",
           "timeColumnType": "timestamp",
           "where": [
@@ -1363,7 +1395,7 @@
   "schemaVersion": 36,
   "style": "dark",
   "tags": [
-    "tesla"
+    "LFP"
   ],
   "templating": {
     "list": [

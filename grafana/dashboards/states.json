@@ -25,21 +25,53 @@
   "iteration": 1642780620514,
   "links": [
     {
-      "icon": "dashboard",
-      "tags": [],
-      "title": "TeslaMate",
-      "tooltip": "",
-      "type": "link",
-      "url": "[[base_url:raw]]"
-    },
-    {
       "asDropdown": true,
       "icon": "external link",
       "tags": [
         "tesla"
       ],
-      "title": "Dashboards",
+      "title": "车辆信息",
       "type": "dashboards"
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "battery"
+      ],
+      "targetBlank": false,
+      "title": "电池",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "trip"
+      ],
+      "targetBlank": false,
+      "title": "行驶",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "doc",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "中文文档",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://docs.teslamate.com.cn"
     }
   ],
   "liveNow": false,
@@ -60,7 +92,7 @@
     },
     {
       "datasource": "TeslaMate",
-      "description": "Only distinguishes between online, offline and asleep.",
+      "description": "仅识别在线、离线和休眠。",
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -136,12 +168,12 @@
           ]
         }
       ],
-      "title": "Last state change",
+      "title": "上次状态变更时间",
       "type": "stat"
     },
     {
       "datasource": "TeslaMate",
-      "description": "Only distinguishes between online, offline and asleep.",
+      "description": "仅识别在线、离线和休眠。",
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -217,7 +249,7 @@
           ]
         }
       ],
-      "title": "Current State",
+      "title": "当前状态",
       "type": "stat"
     },
     {
@@ -310,7 +342,7 @@
           ]
         }
       ],
-      "title": "parked (%)",
+      "title": "停车比 (%)",
       "type": "stat"
     },
     {
@@ -330,41 +362,41 @@
                 "0": {
                   "color": "#6ED0E0",
                   "index": 0,
-                  "text": "online"
+                  "text": "在线"
                 },
                 "1": {
                   "color": "#8F3BB8",
                   "index": 1,
-                  "text": "driving"
+                  "text": "行驶中"
                 },
                 "2": {
                   "color": "#F2CC0C",
                   "index": 2,
-                  "text": "charging"
+                  "text": "充电中"
                 },
                 "3": {
                   "color": "#FFB357",
                   "index": 3,
-                  "text": "offline"
+                  "text": "离线"
                 },
                 "4": {
                   "color": "#56A64B",
                   "index": 4,
-                  "text": "asleep"
+                  "text": "休眠中"
                 },
                 "5": {
                   "color": "#6ED0E0",
                   "index": 5,
-                  "text": "online"
+                  "text": "在线"
                 },
                 "6": {
                   "color": "#E02F44",
                   "index": 6,
-                  "text": "updating"
+                  "text": "升级中"
                 },
                 "null": {
                   "index": 7,
-                  "text": "N/A"
+                  "text": "未知状态"
                 }
               },
               "type": "value"
@@ -433,16 +465,14 @@
           ]
         }
       ],
-      "title": "States",
+      "title": "状态",
       "type": "state-timeline"
     }
   ],
   "refresh": false,
   "schemaVersion": 36,
   "style": "dark",
-  "tags": [
-    "tesla"
-  ],
+  "tags": [],
   "templating": {
     "list": [
       {
@@ -525,7 +555,7 @@
     ]
   },
   "timezone": "",
-  "title": "States",
+  "title": "状态",
   "uid": "xo4BNRkZz",
   "version": 1,
   "weekStart": ""
